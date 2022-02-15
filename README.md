@@ -1,6 +1,6 @@
-# OpenGL Animation
+# OpenGL Animations
 
-## Dependences
+## Dependencies
 - glfw
 - glew
 - glm
