@@ -1,10 +1,13 @@
-#include "particles.hpp"
+#include "Rope.h"
 
 #include <cmath>
 
-Particles::Particles(glm::vec3 start, float rest_length, int nums)
+Rope::Rope(glm::vec3 start, float rest_length, int nums, float k_spring, std::vector<float> &vertices)
 {
     this->nums = nums;
+    this->rest_length = rest_length;
+    this->k = k_spring;
+
     for (int i = 0; i < nums; ++i) {
         pos.push_back(glm::vec3(start.x - (float)i * rest_length, start.y, start.z));
         vel.push_back(glm::vec3(0.0f));
@@ -12,10 +15,7 @@ Particles::Particles(glm::vec3 start, float rest_length, int nums)
         force.push_back(glm::vec3(0.0f));
     }
     pinned.front() = true;
-}
 
-void Particles::loadParticles(std::vector<float> &vertices)
-{
     for (auto &p : pos) {
         vertices.push_back(p.x);
         vertices.push_back(p.y);
@@ -23,26 +23,8 @@ void Particles::loadParticles(std::vector<float> &vertices)
     }
 }
 
-void Particles::update_vertices(std::vector<float> &vertices) {
-    for (int i = 0; i < nums; ++i) {
-        vertices[3 * i + 0] = pos[i].x;
-        vertices[3 * i + 1] = pos[i].y;
-        vertices[3 * i + 2] = pos[i].z;
-    }
-}
-
-void Particles::update_pos(float dt) {
-    for (int i = 0; i < nums; ++i) {
-        if (!pinned[i]) {
-            vel[i] += force[i] / mass * dt;
-            vel[i] *= std::exp(-dt * damping);
-            pos[i] += vel[i] * dt;
-        }
-        force[i] = glm::vec3(0.0f);
-    }
-}
-
-void Particles::compute_force(float k, float rest_length, glm::vec3 gravity) {
+void Rope::compute_force(glm::vec3 gravity) 
+{
     for (int i = 0; i < nums; ++i) {
         force[i] += gravity * mass;
     }
@@ -56,3 +38,21 @@ void Particles::compute_force(float k, float rest_length, glm::vec3 gravity) {
     }
 }
 
+void Rope::update(float dt, std::vector<float> &vertices) 
+{
+    for (int i = 0; i < nums; ++i) {
+        if (!pinned[i]) {
+            vel[i] += force[i] / mass * dt;
+            vel[i] *= std::exp(-dt * damping);
+            pos[i] += vel[i] * dt;
+        }
+        force[i] = glm::vec3(0.0f);
+    }
+
+    for (int i = 0; i < nums; ++i) {
+        vertices[3 * i + 0] = pos[i].x;
+        vertices[3 * i + 1] = pos[i].y;
+        vertices[3 * i + 2] = pos[i].z;
+    }
+
+}

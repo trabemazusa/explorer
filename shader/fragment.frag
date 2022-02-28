@@ -1,8 +1,10 @@
 # version 410 core
 
-out vec4 outcol;
+in vec3 pass_color;
+
+out vec4 outColor;
 
 void main()
 {
-    outcol = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    outColor = vec4(pass_color, 1.0f);
 }
