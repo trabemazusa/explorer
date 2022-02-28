@@ -1,4 +1,4 @@
-# OpenGL Animations
+# CG Animations
 
 ## Dependencies
 - glfw

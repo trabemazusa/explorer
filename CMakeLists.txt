@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(OpenGL_Animations)
+project(CG_Animations)
 
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
