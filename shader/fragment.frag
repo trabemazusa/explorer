@@ -1,10 +1,10 @@
 # version 410 core
 
-in vec3 pass_color;
-
 out vec4 outColor;
+
+uniform vec3 objectColor;
 
 void main()
 {
-    outColor = vec4(pass_color, 1.0f);
+    outColor = vec4(objectColor, 1.0f);
 }
