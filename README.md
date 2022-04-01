@@ -1,6 +1,6 @@
 # Explorer
 
-Explorer contains multiple simulator written by openGL.
+Explorer contains multiple simulators written by openGL.
 
 ## Dependencies
 - glfw
