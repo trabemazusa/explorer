@@ -1,8 +1,9 @@
-# Crush
+# Explorer
 
-Crush is a physics-based simulator written by openGL.
+Explorer contains multiple simulator written by openGL.
 
 ## Dependencies
 - glfw
 - glew
 - glm
+
