@@ -3,12 +3,13 @@
 Edge::Edge(int p1, int p2)
     : p1(p1), p2(p2)
 {
+    m_rest_length = 0.0f;
 }
 
 Cloth::Cloth()
 {
     mass = 1.0f;
-    rest_length = 0.1f;
+    distance = 0.1f;
     rows = 10;
     columns = 10;
     num_of_vertex = rows * columns;
@@ -17,7 +18,7 @@ Cloth::Cloth()
     {
         for (int j = 0; j < columns; ++j)
         {
-            vertices.push_back(glm::vec3(0.5f - rest_length * j, 0.5f, 0.0f + rest_length * i));
+            vertices.push_back(glm::vec3(0.5f - distance * j, 0.5f, 0.0f + distance * i));
             velocity.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
         }
     }
@@ -44,14 +45,17 @@ Cloth::Cloth()
         {
             // row
             Edge row = Edge(i * rows + j, i * rows + (j + 1));
+            row.m_rest_length = glm::distance(vertices[row.p1], vertices[row.p2]);
             edges.push_back(row);
 
             // column
             Edge column = Edge(i * rows + j, (i + 1) * rows + j);
+            column.m_rest_length = glm::distance(vertices[column.p1], vertices[column.p2]);
             edges.push_back(column);
 
             // diagonal
             Edge diagonal = Edge(i * rows + (j + 1), (i + 1) * rows + j);
+            diagonal.m_rest_length = glm::distance(vertices[diagonal.p1], vertices[diagonal.p2]);
             edges.push_back(diagonal);
         }
     }
@@ -60,17 +64,19 @@ Cloth::Cloth()
     {
         // row
         Edge row = Edge(i * rows + (columns - 1), (i + 1) * rows + (columns - 1));
+        row.m_rest_length = glm::distance(vertices[row.p1], vertices[row.p2]);
         edges.push_back(row);
     }
     for (int i = 0; i < columns - 1; ++i)
     {
         // column
         Edge column = Edge((rows - 1) * columns + i, (rows - 1) * columns + (i + 1));
+        column.m_rest_length = glm::distance(vertices[column.p1], vertices[column.p2]);
         edges.push_back(column);
     }
 }
 
-float Cloth::test_constraint(glm::vec3 p1, glm::vec3 p2)
+float Cloth::test_constraint(glm::vec3 p1, glm::vec3 p2, float rest_length)
 {
     float constraint = glm::length(p1 - p2) - rest_length;
     return constraint;
@@ -99,7 +105,7 @@ void Cloth::tick(float delta_t)
             glm::vec3 p1 = new_pos[edges[i].p1];
             glm::vec3 p2 = new_pos[edges[i].p2];
 
-            float constraint = test_constraint(p1, p2);
+            float constraint = test_constraint(p1, p2, edges[i].m_rest_length);
             glm::vec3 delta_p1 = stiffness_stretch_prime * -0.5f * constraint * glm::normalize(p1 - p2);
             glm::vec3 delta_p2 = -delta_p1;
 
