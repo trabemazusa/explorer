@@ -5,6 +5,8 @@
 
 #include "renderer.h"
 
+#include <stdio.h>
+
 Renderer::Renderer()
 {    
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
