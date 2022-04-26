@@ -1,10 +1,11 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 #include "shape.h"
 
 Shape::Shape()
 {    
     vertices = std::vector<glm::vec3>();
+    vertices_ptr = std::vector<glm::vec3*>();
     normals = std::vector<glm::vec3>();
     indices = std::vector<unsigned int>();
     model_matrix = glm::mat4(1.0f);
@@ -66,6 +67,11 @@ void Shape::set_color(glm::vec3 color)
 
 void Shape::load_buffer_data()
 {    
+    for (auto &p : vertices_ptr)
+    {
+        vertices.push_back(*p);
+    }
+
     glBindVertexArray(vao);
 
     glEnableVertexAttribArray(0);

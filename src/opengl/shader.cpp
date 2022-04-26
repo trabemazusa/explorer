@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-#include <Gl/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 Shader::Shader(const char* vpath, const char* fpath)

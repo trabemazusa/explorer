@@ -28,7 +28,7 @@ public:
     void draw_line_strip(Shape* shape);
     void draw_points(Shape* shape, float point_size);
 
-    void destroy_renderer();
+    void destroy();
 };
 
 #endif // RENDERER_H

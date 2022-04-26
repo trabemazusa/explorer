@@ -1,12 +1,17 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "renderer.h"
 
 Renderer::Renderer()
-{
-    glewInit();
+{    
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    {
+        printf("Failed to initialize OpenGL context.\n");
+        exit(1);
+    }
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -64,13 +69,22 @@ void Renderer::draw_triangles(Shape* shape, bool draw_wireframe, bool update_ver
 
     if (update_vertex_data)
     {
+        if (!shape->vertices_ptr.empty())
+        {
+            for (int i = 0; i < shape->vertices_ptr.size(); ++i)
+            {
+                shape->vertices[i] = *shape->vertices_ptr[i];
+            }
+        }
         glBindBuffer(GL_ARRAY_BUFFER, shape->vbo);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * shape->vertices.size(), shape->vertices.data());
     }
+
     if (draw_wireframe) 
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // draw wireframe
     }
+
     glDrawElements(GL_TRIANGLES, shape->indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
@@ -121,7 +135,7 @@ void Renderer::draw_points(Shape* shape, float point_size)
     glBindVertexArray(0);
 }
 
-void Renderer::destroy_renderer()
+void Renderer::destroy()
 {
     shader->destroy();
     delete shader;

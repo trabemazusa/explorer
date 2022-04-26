@@ -50,7 +50,7 @@ int Window::get_window_height()
     return height;
 }
 
-void Window::destroy_window()
+void Window::destroy()
 {
     glfwDestroyWindow(window);
     glfwTerminate();

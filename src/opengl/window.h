@@ -21,7 +21,7 @@ public:
     void swap_buffer();
     int get_window_width();
     int get_window_height();
-    void destroy_window();
+    void destroy();
 
 };
 
