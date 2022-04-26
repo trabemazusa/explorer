@@ -22,7 +22,7 @@ Spring::Spring(Mass* m1, Mass* m2)
 
 Cloth::Cloth(int rows, int columns)
 {
-    m_dampping = 1.0f;
+    m_damping = 1.0f;
     int index = 0;
     int num_particles = rows * columns;
     float edge_length = 0.1f;
@@ -139,7 +139,7 @@ void Cloth::explicit_tick(float delta_t)
         if (!particle->m_pinned)
         {
             particle->m_velocity += delta_t * particle->m_force / particle->m_mass;
-            particle->m_velocity *= std::exp(-delta_t * m_dampping); // dampping
+            particle->m_velocity *= std::exp(-delta_t * m_damping); // dampping
             particle->m_position += delta_t * particle->m_velocity;
         }
     }

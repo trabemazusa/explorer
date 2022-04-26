@@ -27,7 +27,7 @@ struct Spring
 class Cloth : public Shape
 {
 public:
-    float m_dampping;
+    float m_damping;
     std::vector<Mass*> m_masses;
     std::vector<Spring*> m_springs;
 
