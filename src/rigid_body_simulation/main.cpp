@@ -1,3 +1,4 @@
+// https://graphics.pixar.com/pbm2001/pdf/notesg.pdf
 
 #include "../opengl/window.h"
 #include "../opengl/renderer.h"
@@ -40,8 +41,8 @@ int main()
         w.swap_buffer();
     }
 
-    w.destroy_window();
-    r.destroy_renderer();
+    w.destroy();
+    r.destroy();
 
     delete square;
     delete line;
