@@ -13,7 +13,7 @@ int main()
     r.create_default_renderer();
     r.set_camera_pos(glm::vec3(2, 1, 2), w.get_window_width(), w.get_window_height());
 
-    Cloth* cloth = new Cloth(10, 10);
+    Cloth* cloth = new Cloth(8, 8);
     cloth->load_buffer_data();
     cloth->set_color(glm::vec3(1.0f, 0.5f, 0.3f));
 
